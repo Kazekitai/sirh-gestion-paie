@@ -24,7 +24,7 @@ public class CalculerRemunerationServiceSimple implements CalculerRemunerationSe
 		String salaireBrut = paieUtils.formaterBigDecimal(salaireBrutBD);
 		
 		List<Cotisation> cotisationNonImposable = bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsNonImposables();
-		BigDecimal totalRetenueSalarialBD = new BigDecimal(0.0);
+		BigDecimal totalRetenueSalarialBD = BigDecimal.valueOf(0.0);
 		for(Cotisation cotisation : cotisationNonImposable) {
 			if(cotisation.getTauxSalarial() != null) {
 				BigDecimal res = cotisation.getTauxSalarial().multiply(new BigDecimal(salaireBrut));
@@ -33,7 +33,7 @@ public class CalculerRemunerationServiceSimple implements CalculerRemunerationSe
 		}
 		String totalRetenueSalarial = paieUtils.formaterBigDecimal(totalRetenueSalarialBD);
 		
-		BigDecimal sommePatronales = new BigDecimal(0.0);
+		BigDecimal sommePatronales = BigDecimal.valueOf(0.0);
 		for(Cotisation cotisation : cotisationNonImposable) {
 			if(cotisation.getTauxPatronal() != null) {
 				BigDecimal res = cotisation.getTauxPatronal().multiply(new BigDecimal(salaireBrut));
@@ -46,7 +46,7 @@ public class CalculerRemunerationServiceSimple implements CalculerRemunerationSe
 		String netImposable = paieUtils.formaterBigDecimal(netImposableBD);
 		
 		List<Cotisation> cotisationImposable = bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsImposables();
-		BigDecimal totalRetenueSalarialImposableBD = new BigDecimal(0.0);
+		BigDecimal totalRetenueSalarialImposableBD = BigDecimal.valueOf(0.0);
 		for(Cotisation cotisation : cotisationImposable) {
 			BigDecimal res = cotisation.getTauxSalarial().multiply(new BigDecimal(salaireBrut));
 			totalRetenueSalarialImposableBD = totalRetenueSalarialImposableBD.add(res);		
