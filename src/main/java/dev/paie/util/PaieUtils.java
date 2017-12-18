@@ -6,11 +6,16 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan("dev.paie.util")
 public class PaieUtils {
 
 	/**
 	 * Formate un nombre sous la forme xx.xx (exemple : 2.00, 1.90). L'arrondi se
-	 * faire en mode "UP" => 1.904 devient 1.91
+	 * fait en mode "UP" => 1.904 devient 1.91
 	 *
 	 * @param decimal
 	 *            nombre à formater
