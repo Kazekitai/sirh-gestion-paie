@@ -1,0 +1,34 @@
+10:49:35.557 [main] INFO  org.slf4j.Logger -
+				dev.paie.entite.Grade@13fd2ccd
+10:50:26.439 [main] INFO  org.slf4j.Logger -
+				grade: dev.paie.entite.Grade@13fd2ccd
+10:51:23.829 [main] INFO  logger1 -
+				grade: dev.paie.entite.Grade@13fd2ccd
+10:52:04.434 [main] INFO  logger1 -
+				grade: Code: 5 - Nb heures de base: 151.67 - Taux de base: 11.10
+11:26:55.156 [main] INFO  logger1 -
+				Grade ajouté: Code: 5 - Nb heures de base: 151.67 - Taux de base: 11.10
+11:26:55.213 [main] INFO  logger1 -
+				Grade modifié: Code: 6 - Nb heures de base: 200.67 - Taux de base: 15.10
+11:32:06.727 [main] INFO  logger1 -
+				Grade ajouté: Code: 5 - Nb heures de base: 151.67 - Taux de base: 11.10
+11:32:06.806 [main] INFO  logger1 -
+				Grade modifié: Code: 6 - Nb heures de base: 200.67 - Taux de base: 15.10
+11:33:05.163 [main] INFO  logger1 -
+				Grade ajouté: Code: 5 - Nb heures de base: 151.67 - Taux de base: 11.10
+11:33:29.341 [main] INFO  logger1 -
+				Grade ajouté: Code: 5 - Nb heures de base: 151.67 - Taux de base: 11.10
+11:33:29.383 [main] INFO  logger1 -
+				Grade modifié: Code: 6 - Nb heures de base: 200.67 - Taux de base: 15.10
+11:37:51.795 [main] INFO  logger1 -
+				Grade ajouté: Code: 5 - Nb heures de base: 151.67 - Taux de base: 11.10
+11:37:51.839 [main] INFO  logger1 -
+				Grade modifié: Code: 6 - Nb heures de base: 200.67 - Taux de base: 15.10
+11:41:42.774 [main] INFO  logger1 -
+				Grade ajouté: Code: 5 - Nb heures de base: 151.67 - Taux de base: 11.10
+11:41:42.809 [main] INFO  logger1 -
+				Grade modifié: Code: 6 - Nb heures de base: 200.67 - Taux de base: 15.10
+12:17:42.191 [main] INFO  logger1 -
+				Grade ajouté: Code: 5 - Nb heures de base: 151.67 - Taux de base: 11.10
+12:17:42.239 [main] INFO  logger1 -
+				Grade modifié: Code: 6 - Nb heures de base: 200.67 - Taux de base: 15.10

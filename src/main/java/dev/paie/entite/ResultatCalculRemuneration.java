@@ -1,17 +1,47 @@
 package dev.paie.entite;
 
+/**
+ * Résultat regroupant les diifrénts calcul de rémunération
+ * @author Sandra Le Thiec
+ *
+ */
 public class ResultatCalculRemuneration {
 	
-		/* Attributs */
+		/* ATTRIBUTS  */
 	
+		/**
+		 * Salaire de base
+		 */
 		private String salaireDeBase;
+		
+		/**
+		 * Salaire brut
+		 */
 		private String salaireBrut;
+		
+		/**
+		 * Total de la retenue salariale
+		 */
 		private String totalRetenueSalarial;
+		
+		/**
+		 * Total de la cotisation patronale
+		 */
 		private String totalCotisationsPatronales;
+		
+		/**
+		 * Total net imposable
+		 */
 		private String netImposable;
+		
+		/**
+		 * Total net à payer
+		 */
 		private String netAPayer;
 		
-		/* Getters & setters */
+		
+		
+		/* GETTERS ET SETTERS */
 		
 		/**
 		 * @return the salaireDeBase
@@ -85,9 +115,4 @@ public class ResultatCalculRemuneration {
 		public void setNetAPayer(String netAPayer) {
 			this.netAPayer = netAPayer;
 		}
-		
-		
-		
-		
-
 }
