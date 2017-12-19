@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import dev.paie.entite.Grade;
 import dev.paie.mapper.GradeMapper;
@@ -15,7 +16,7 @@ import dev.paie.mapper.GradeMapper;
  * @author Sandra Le Thiec
  *
  */
-@Repository
+@Service
 public class GradeServiceJdbcTemplate implements GradeService {
 
 	/* ATTRIBUTS */
