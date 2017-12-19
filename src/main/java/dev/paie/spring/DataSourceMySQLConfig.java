@@ -13,7 +13,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 public class DataSourceMySQLConfig {
 	/**
-	 *  Bean de confoiguration de la source des données
+	 *  Bean de configuration de la source des données
 	 * @return dataSource
 	 */
 	@Bean

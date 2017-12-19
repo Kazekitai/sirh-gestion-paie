@@ -1,6 +1,14 @@
 package dev.paie.entite;
 
 import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,6 +16,8 @@ import org.springframework.stereotype.Component;
  * @author Sandra Le Thiec
  *
  */
+@Entity
+@Table(name = "cotisation")
 @Component
 public class Cotisation {
 	
@@ -16,27 +26,38 @@ public class Cotisation {
 	/**
 	 * Un identifiant
 	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	/**
 	 * Un code
 	 */
+	@Column(name="code")
 	private String code;
 	
 	/**
 	 * Un libellé
 	 */
+	@Column(name="libelle")
 	private String libelle;
 	
 	/**
 	 * Un taux salarial
 	 */
+	@Column(name="tauxSalarial")
 	private BigDecimal tauxSalarial;
 	
 	/**
 	 * Un taux patronal
 	 */
+	@Column(name="tauxPatronal")
 	private BigDecimal tauxPatronal;
+	
+	/* METHODE */
+	public String toString() {
+		return "Code: " + code + " - Libellé: " + libelle + " - Taux salarial: " + tauxSalarial + " - Taux salarial: " + tauxPatronal;
+	}
 	
 	/* GETTERS ET SETTERS */
 
