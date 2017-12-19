@@ -1,6 +1,14 @@
 package dev.paie.entite;
 
 import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,29 +16,42 @@ import org.springframework.stereotype.Component;
  * @author Sandra Le Thiec
  *
  */
+@Entity
+@Table(name = "avantage")
 @Component
 public class Avantage {
 
 	/* ATTRIBUTS */
+	
 	/**
 	 * Un identifiant
 	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	/**
 	 * Un code avantage
 	 */
+	@Column(name="code")
 	private String code;
 	
 	/**
 	 * Un nom définissant l'avantage
 	 */
+	@Column(name="nom")
 	private String nom;
 	
 	/**
 	 * Un montant de l'avantage
 	 */
+	@Column(name="montant")
 	private BigDecimal montant;
+	
+	/* METHODES */
+	public String toString() {
+		return "Code: " + code + " - Nom: " + nom + " - montant: " + montant;
+	}
 
 	
 	/* GETTERS ET SETTERS */
