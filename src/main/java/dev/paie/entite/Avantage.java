@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -37,7 +39,7 @@ public class Avantage {
 	private String code;
 	
 	/**
-	 * Un nom définissant l'avantage
+	 * Un nom définissant l'avantage  
 	 */
 	@Column(name="nom")
 	private String nom;
@@ -47,6 +49,10 @@ public class Avantage {
 	 */
 	@Column(name="montant")
 	private BigDecimal montant;
+	
+	@ManyToOne
+	@JoinColumn(name="profilRemun_id")
+	private ProfilRemuneration profilRemunerationAvantage;
 	
 	/* METHODES */
 	public String toString() {

@@ -1,5 +1,15 @@
 package dev.paie.entite;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,6 +17,8 @@ import org.springframework.stereotype.Component;
  * @author Sandra Le Thiec
  *
  */
+@Entity
+@Table(name = "entreprise")
 @Component
 public class Entreprise {
 
@@ -15,32 +27,42 @@ public class Entreprise {
 	/**
 	 * Un identifiant
 	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	/**
 	 * Un siret
 	 */
+	@Column(name="siret")
 	private String siret;
 	
 	/**
 	 * Une dénomnation
 	 */
+	@Column(name="denomination")
 	private String denomination;
 	
 	/**
 	 * Une addresse
 	 */
+	@Column(name="adresse")
 	private String adresse;
 	
 	/**
 	 * Un code Ursaff
 	 */
+	@Column(name="urssaf")
 	private String urssaf;
 	
 	/**
 	 * Un code Naf
 	 */
+	@Column(name="codeNaf")
 	private String codeNaf;
+	
+	@OneToMany(mappedBy="entreprise")
+	private List<RemunerationEmploye> remunerationsEmp;
 
 	/* GETTERS ET SETTERS  */
 	

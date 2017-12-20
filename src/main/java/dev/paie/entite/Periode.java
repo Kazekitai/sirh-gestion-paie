@@ -1,12 +1,23 @@
 package dev.paie.entite;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * Une période
  * @author Sandra Le Thiec
  *
  */
+@Entity
+@Table(name="periode")
 public class Periode {
 	
 	/* ATTRIBUTS */
@@ -14,17 +25,24 @@ public class Periode {
 	/**
 	 * Un identifiant
 	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	/**
 	 * Une date de début
 	 */
+	@Column(name="dateDebut")
 	private LocalDate dateDebut;
 	
 	/**
 	 * Une date de fin
 	 */
+	@Column(name="dateFin")
 	private LocalDate dateFin;
+	
+	@OneToMany(mappedBy="periode")
+	private List<BulletinSalaire> bulletins;
 	
 	/* GETTERS ET SETTERS */
 
