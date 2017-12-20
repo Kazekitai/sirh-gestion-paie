@@ -61,8 +61,6 @@ public class Entreprise {
 	@Column(name="codeNaf")
 	private String codeNaf;
 	
-	@OneToMany(mappedBy="entreprise")
-	private List<RemunerationEmploye> remunerationsEmp;
 
 	/* GETTERS ET SETTERS  */
 	

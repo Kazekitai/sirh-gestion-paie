@@ -40,9 +40,7 @@ public class Periode {
 	 */
 	@Column(name="dateFin")
 	private LocalDate dateFin;
-	
-	@OneToMany(mappedBy="periode")
-	private List<BulletinSalaire> bulletins;
+
 	
 	/* GETTERS ET SETTERS */
 

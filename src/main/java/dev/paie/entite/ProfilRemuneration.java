@@ -7,9 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -41,19 +42,28 @@ public class ProfilRemuneration {
 	/**
 	 * Une liste des cotisations non imposables
 	 */
-	@OneToMany(mappedBy="profilRemunerationCotisation")
+	@ManyToMany
+	@JoinTable(name="PROFIL_COTISATION_NON_IMPOSABLE",
+	joinColumns=@JoinColumn(name="ID_PROFIL", referencedColumnName="ID"),
+	inverseJoinColumns= @JoinColumn(name="ID_COTISATION", referencedColumnName="ID"))
 	private List<Cotisation> cotisationsNonImposables;
 	
 	/**
 	 * Une liste des cotisations imposables
 	 */
-	@OneToMany(mappedBy="profilRemunerationCotisation")
+	@ManyToMany
+	@JoinTable(name="PROFIL_COTISATION_IMPOSABLE",
+	joinColumns=@JoinColumn(name="ID_PROFIL", referencedColumnName="ID"),
+	inverseJoinColumns= @JoinColumn(name="ID_COTISATION", referencedColumnName="ID"))
 	private List<Cotisation> cotisationsImposables;
 	
 	/**
 	 * Une liste des avantages
 	 */
-	@OneToMany(mappedBy="profilRemunerationAvantage")
+	@ManyToMany
+	@JoinTable(name="PROFIL_AVANTGE",
+	joinColumns=@JoinColumn(name="ID_PROFIL", referencedColumnName="ID"),
+	inverseJoinColumns= @JoinColumn(name="ID_AVANTAGE", referencedColumnName="ID"))
 	private List<Avantage> avantages;
 
 	/* GETTERS ET SETTERS */
