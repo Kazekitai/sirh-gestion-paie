@@ -70,8 +70,6 @@ public class CotisationServiceJpaTest {
 		assertThat(paieUtils.formaterBigDecimal(cotisationModifRecup.getTauxSalarial()).equals(paieUtils.formaterBigDecimal(new BigDecimal("0.009000"))));
 		assertThat(paieUtils.formaterBigDecimal(cotisationModifRecup.getTauxPatronal()).equals(paieUtils.formaterBigDecimal(new BigDecimal("0.009000"))));
 		LOG.info("\nCotisation modifiée: " + cotisationModifRecup.toString());
-		
-		
 	}
 
 }
