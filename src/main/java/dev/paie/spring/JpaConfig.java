@@ -47,7 +47,7 @@ public class JpaConfig {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setGenerateDdl(true);
 		// activer les logs SQL
-		vendorAdapter.setShowSql(true);
+		//vendorAdapter.setShowSql(true);
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		factory.setJpaVendorAdapter(vendorAdapter);
 		// alternative au persistence.xml
