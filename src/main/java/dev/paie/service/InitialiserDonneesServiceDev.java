@@ -110,7 +110,7 @@ public class InitialiserDonneesServiceDev implements InitialiserDonneesService{
 		
 		// Insertion des périodes dans la base
 		for(int i=0; i<12;i++) {
-			LocalDate date = LocalDate.of(LocalDate.now().getYear(), i, 1);
+			LocalDate date = LocalDate.of(LocalDate.now().getYear(), i+1, 1);
 			LocalDate start = date.with(TemporalAdjusters.firstDayOfMonth());
 			LocalDate end = date.with(TemporalAdjusters.lastDayOfMonth());
 			Periode p = new Periode();
