@@ -13,20 +13,20 @@
 <title>SGP - App</title>
 <link rel="stylesheet"
 	href='<c:url value="/bootstrap-3.3.7-dist/css/bootstrap.css" />' />
-<link rel="stylesheet"
-href='<c:url value="/css/style.css" />' />
+<link rel="stylesheet" href='<c:url value="/css/style.css" />' />
 
 </head>
 <body style="background-color: lightgray;">
-	<c:url value="lister" var="employes"></c:url>
+	<c:url value="lister" var="bulletins"></c:url>
 	<div id="signupbox" style="margin-top: 50px; width: 50%"
 		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<div class="panel-title">Générer un Bulletin de Salaire</div>
+				<div class="panel-title">Créer un Bulletin de Salaire</div>
 			</div>
 			<div class="panel-body">
-				<form:form id="signupform" class="form-horizontal" role="form" method="post" action="creer" modelAttribute="employe">
+				<form:form id="signupform" class="form-horizontal" role="form"
+					method="post" action="creer" modelAttribute="bulletin">
 
 					<div id="signupalert" style="display: none"
 						class="alert alert-danger">
@@ -34,50 +34,39 @@ href='<c:url value="/css/style.css" />' />
 						<span></span>
 					</div>
 					<div class="form-group">
-						<form:label path="matricule" for="matricule" class="col-md-3 control-label form-label">Matricule</form:label>
+						<form:label path="periode" for="periode"
+							class="col-md-3 control-label form-label">Période</form:label>
 						<div class="col-md-9">
-							<form:input path="matricule" type="text" class="form-control"
-								name="matricule" placeholder="matricule" />
-						</div>
-					</div>
-
-					<div class="form-group">
-						<form:label path="entreprise" for="entreprise"
-							class="col-md-3 control-label form-label">Entreprise</form:label>
-						<div class="col-md-9">
-							<form:select path="entreprise" id="entreprise"
-								class="form-control" name="entreprise">
-								<c:forEach var="entreprise" items="${listeEntreprises}">
-									<form:option value="${entreprise.id}"
-										label="${entreprise.denomination}" />
-								</c:forEach>
+							<form:select path="periode" id="periode" class="form-control"
+								name="periode">
+								<form:options items="${listePeriodes}" itemValue="id"
+									itemLabel="dateDebut" />
 							</form:select>
 						</div>
 					</div>
 
 					<div class="form-group">
-						<form:label path="profilRemuneration" for="profil"
-							class="col-md-3 control-label form-label">Profil</form:label>
+						<form:label path="matricule" for="matricule"
+							class="col-md-3 control-label form-label">Matricule</form:label>
 						<div class="col-md-9">
-							<form:select path="profilRemuneration" id="profil" class="form-control"
-							name="profilRemuneration">
-							<c:forEach var="profil" items="${listeProfils}">
-								<form:option value="${profil.id}" label="${profil.code}" />
-							</c:forEach>
+						
+						<form:select path="matricule" id="matricule" class="form-control"
+								name="matricule">
+								<form:options items="${listeEmployes}" itemValue="id"
+									itemLabel="remunerationEmploye.matricule" />
 							</form:select>
+							
+							
 						</div>
 					</div>
 
 					<div class="form-group">
-						<form:label path="grade" for="grade"
-							class="col-md-3 control-label form-label">Grade</form:label>
+						<form:label path="primeExceptionnelle" for="primeExceptionnelle"
+							class="col-md-3 control-label form-label">Prime exceptionnelle</form:label>
 						<div class="col-md-9">
-							<form:select path="grade" id="grade" class="form-control"
-							name="grade">
-							<c:forEach var="grade" items="${gradeObject}">
-								<form:option value='${grade.get("id")}' label='${grade.get("label")}'  />
-							</c:forEach>
-							</form:select>
+							<form:input path="primeExceptionnelle" type="text"
+								class="form-control" name="primeExceptionnelle"
+								placeholder="Prime exceptionnelle" />
 						</div>
 					</div>
 
@@ -85,9 +74,9 @@ href='<c:url value="/css/style.css" />' />
 						<!-- Button -->
 						<div class="col-md-offset-3 col-md-9">
 							<button id="btn-signup" type="submit" class="btn btn-info">
-								<i class="icon-hand-right"></i> Ajouter
+								<i class="icon-hand-right"></i> Créer
 							</button>
-							<a href="${employes}" class="btn btn-info"
+							<a href="${bulletins}" class="btn btn-info"
 								style="margin-left: 10px;">Annuler</a>
 						</div>
 					</div>

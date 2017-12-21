@@ -13,8 +13,7 @@
 <title>SGP - App</title>
 <link rel="stylesheet"
 	href='<c:url value="/bootstrap-3.3.7-dist/css/bootstrap.css" />' />
-<link rel="stylesheet"
-href='<c:url value="/css/style.css" />' />
+<link rel="stylesheet" href='<c:url value="/css/style.css" />' />
 
 </head>
 <body style="background-color: lightgray;">
@@ -26,7 +25,8 @@ href='<c:url value="/css/style.css" />' />
 				<div class="panel-title">Ajouter un employé</div>
 			</div>
 			<div class="panel-body">
-				<form:form id="signupform" class="form-horizontal" role="form" method="post" action="creer" modelAttribute="employe">
+				<form:form id="signupform" class="form-horizontal" role="form"
+					method="post" action="creer" modelAttribute="employe">
 
 					<div id="signupalert" style="display: none"
 						class="alert alert-danger">
@@ -34,10 +34,12 @@ href='<c:url value="/css/style.css" />' />
 						<span></span>
 					</div>
 					<div class="form-group">
-						<form:label path="matricule" for="matricule" class="col-md-3 control-label form-label">Matricule</form:label>
+						<form:label path="matricule" for="matricule"
+							class="col-md-3 control-label form-label">Matricule</form:label>
 						<div class="col-md-9">
 							<form:input path="matricule" type="text" class="form-control"
-								name="matricule" placeholder="matricule" value="${matricule}" readonly="true"/>
+								name="matricule" placeholder="matricule" value="${matricule}"
+								readonly="true" />
 						</div>
 					</div>
 
@@ -47,10 +49,8 @@ href='<c:url value="/css/style.css" />' />
 						<div class="col-md-9">
 							<form:select path="entreprise" id="entreprise"
 								class="form-control" name="entreprise">
-								<c:forEach var="entreprise" items="${listeEntreprises}">
-									<form:option value="${entreprise.id}"
-										label="${entreprise.denomination}" />
-								</c:forEach>
+								<form:options items="${listeEntreprises}"
+									itemValue="id" itemLabel="denomination" />
 							</form:select>
 						</div>
 					</div>
@@ -59,11 +59,10 @@ href='<c:url value="/css/style.css" />' />
 						<form:label path="profilRemuneration" for="profil"
 							class="col-md-3 control-label form-label">Profil</form:label>
 						<div class="col-md-9">
-							<form:select path="profilRemuneration" id="profil" class="form-control"
-							name="profilRemuneration">
-							<c:forEach var="profil" items="${listeProfils}">
-								<form:option value="${profil.id}" label="${profil.code}" />
-							</c:forEach>
+							<form:select path="profilRemuneration" id="profil"
+								class="form-control" name="profilRemuneration">
+								<form:options items="${listeProfils}"
+									itemValue="id" itemLabel="code" />
 							</form:select>
 						</div>
 					</div>
@@ -73,10 +72,11 @@ href='<c:url value="/css/style.css" />' />
 							class="col-md-3 control-label form-label">Grade</form:label>
 						<div class="col-md-9">
 							<form:select path="grade" id="grade" class="form-control"
-							name="grade">
-							<c:forEach var="grade" items="${gradeObject}">
-								<form:option value='${grade.get("id")}' label='${grade.get("label")}'  />
-							</c:forEach>
+								name="grade">
+								<c:forEach var="grade" items="${gradeObject}">
+									<form:option value='${grade.get("id")}'
+										label='${grade.get("label")}' />
+								</c:forEach>
 							</form:select>
 						</div>
 					</div>

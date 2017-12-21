@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import dev.paie.entite.BulletinSalaire;
 import dev.paie.entite.Entreprise;
 import dev.paie.entite.Grade;
+import dev.paie.entite.Periode;
 import dev.paie.entite.ProfilRemuneration;
 import dev.paie.entite.RemunerationEmploye;
 import dev.paie.repository.EntrepriseRepository;
 import dev.paie.repository.GradeRepository;
+import dev.paie.repository.PeriodeRepository;
 import dev.paie.repository.ProfilRemunerationRepository;
 import dev.paie.repository.RemunerationEmployeRepository;
 import dev.paie.util.PaieUtils;
@@ -42,6 +46,9 @@ public class RemunerationEmployeController {
 	@Autowired private ProfilRemunerationRepository profilRepository;
 	@Autowired private GradeRepository gradeRepository;
 	@Autowired private RemunerationEmployeRepository employeRepository;
+	@Autowired private PeriodeRepository periodeRepository;
+//	@Autowired private BulletinSalaireRepository bulletinsRepository;
+	
 	@Autowired private PaieUtils paieUtils;
 
 	@RequestMapping(method = RequestMethod.GET, path = "/creer")
@@ -111,6 +118,34 @@ public class RemunerationEmployeController {
 		List<RemunerationEmploye> listEmployes = employeRepository.findAll();
 		mv.setViewName("employes/listerEmploye");
 		mv.addObject("listEmployes",listEmployes);
+		return mv;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/creer")
+	public ModelAndView showBulletinForm(Model model) {
+		BulletinSalaire bulletin  = new BulletinSalaire();
+		model.addAttribute("bulletin",bulletin);
+		ModelAndView mv = new ModelAndView();
+		// Liste des périodes
+		List<Periode> listePeriodes = periodeRepository.findAll();
+
+		// Liste des employés
+		List<RemunerationEmploye> listeEmploye = employeRepository.findAll();
+		
+		
+		mv.setViewName("employes/creerBulletin");
+		mv.addObject("listePeriodes", listePeriodes);
+		mv.addObject("listeEmployes", listeEmploye);
+	
+		return mv;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/lister")
+	public ModelAndView showBulletins() {
+		ModelAndView mv = new ModelAndView();
+//		List<BulletinSalaire> bulletins = bulletinsRepository.findAll();
+		mv.setViewName("employes/listerBulletins");
+//		mv.addObject("listBulletins",bulletins);
 		return mv;
 	}
 
