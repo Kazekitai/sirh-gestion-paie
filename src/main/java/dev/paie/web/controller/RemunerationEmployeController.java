@@ -56,6 +56,9 @@ public class RemunerationEmployeController {
 		// Liste des grades
 		List<Grade> listeGrade = gradeRepository.findAll();
 		
+		// Liste des employés
+		List<RemunerationEmploye> listeEmploye = employeRepository.findAll();
+		
 		List<JSONObject> gradeObject = new ArrayList<>();
 		listeGrade.stream().forEach(g -> {
 			String[] codeSplit = g.getCode().split("_");
@@ -69,7 +72,17 @@ public class RemunerationEmployeController {
 			gradeObject.add(json);	
 		});
 		
+		String matricule = "M01";
+		if(listeEmploye.size() > 0) {
+			String dernierMatricule = listeEmploye.get(listeEmploye.size()-1).getMatricule();
+			String[] numMatriculeSpilt = dernierMatricule.split("M0");
+			int numMatricule = Integer.valueOf(numMatriculeSpilt[1]) + 1;
+			matricule = "M0"+numMatricule;
+		}
+		
+		
 		mv.setViewName("employes/creerEmploye");
+		mv.addObject("matricule", matricule);
 		mv.addObject("listeEntreprises", listeEntreprises);
 		mv.addObject("listeProfils", listeProfil);
 		mv.addObject("gradeObject", gradeObject);		

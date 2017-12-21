@@ -23,7 +23,7 @@ href='<c:url value="/css/style.css" />' />
 		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<div class="panel-title">Ajouter un employé</div>
+				<div class="panel-title">Générer un Bulletin de Salaire</div>
 			</div>
 			<div class="panel-body">
 				<form:form id="signupform" class="form-horizontal" role="form" method="post" action="creer" modelAttribute="employe">
@@ -37,7 +37,7 @@ href='<c:url value="/css/style.css" />' />
 						<form:label path="matricule" for="matricule" class="col-md-3 control-label form-label">Matricule</form:label>
 						<div class="col-md-9">
 							<form:input path="matricule" type="text" class="form-control"
-								name="matricule" placeholder="matricule" value="${matricule}" readonly="true"/>
+								name="matricule" placeholder="matricule" />
 						</div>
 					</div>
 
