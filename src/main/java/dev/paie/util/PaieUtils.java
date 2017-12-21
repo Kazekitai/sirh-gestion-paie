@@ -31,5 +31,20 @@ public class PaieUtils {
 		df.setGroupingUsed(false);
 		return df.format(decimal);
 	}
+	
+	/**
+	 * Formate une chaîne de caractère pour quelle commence par une majuscule
+	 * @param value
+	 * @return
+	 */
+	public String upperCaseFirst(String value) {
+
+        // Convert String to char array.
+        char[] array = value.toCharArray();
+        // Modify first element in array.
+        array[0] = Character.toUpperCase(array[0]);
+        // Return string.
+        return new String(array);
+    }
 
 }
