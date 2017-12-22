@@ -120,7 +120,20 @@ public class BulletinSalaire {
 		this.primeExceptionnelle = primeExceptionnelle;
 	}
 	
-	
+	/**
+	 * @return the dateCreation
+	 */
+	public LocalDateTime getDateCreation() {
+		return dateCreation;
+	}
+
+	/**
+	 * @param dateCreation the dateCreation to set
+	 */
+	public void setDateCreation(LocalDateTime dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
 	
 	
 	

@@ -1,7 +1,9 @@
 package dev.paie.web.controller;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,11 +27,14 @@ import dev.paie.entite.Grade;
 import dev.paie.entite.Periode;
 import dev.paie.entite.ProfilRemuneration;
 import dev.paie.entite.RemunerationEmploye;
+import dev.paie.entite.ResultatCalculRemuneration;
+import dev.paie.repository.BulletinSalaireRepository;
 import dev.paie.repository.EntrepriseRepository;
 import dev.paie.repository.GradeRepository;
 import dev.paie.repository.PeriodeRepository;
 import dev.paie.repository.ProfilRemunerationRepository;
 import dev.paie.repository.RemunerationEmployeRepository;
+import dev.paie.service.CalculerRemunerationService;
 import dev.paie.util.PaieUtils;
 
 /**
@@ -47,7 +52,8 @@ public class RemunerationEmployeController {
 	@Autowired private GradeRepository gradeRepository;
 	@Autowired private RemunerationEmployeRepository employeRepository;
 	@Autowired private PeriodeRepository periodeRepository;
-//	@Autowired private BulletinSalaireRepository bulletinsRepository;
+	@Autowired private BulletinSalaireRepository bulletinRepository;
+	@Autowired private CalculerRemunerationService remunerationService;
 	
 	@Autowired private PaieUtils paieUtils;
 
@@ -131,10 +137,18 @@ public class RemunerationEmployeController {
 
 		// Liste des employés
 		List<RemunerationEmploye> listeEmploye = employeRepository.findAll();
-		
+		List<JSONObject> PeriodeObject = new ArrayList<>();
+		listePeriodes.stream().forEach(p -> {
+			JSONObject json = new JSONObject();
+			DateTimeFormatter  formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			String periode = formatter.format(p.getDateDebut()) + " - " +formatter.format(p.getDateFin());
+			json.put("id", p.getId());
+			json.put("periode", periode);
+			PeriodeObject.add(json);	
+		});
 		
 		mv.setViewName("employes/creerBulletin");
-		mv.addObject("listePeriodes", listePeriodes);
+		mv.addObject("listePeriodes", PeriodeObject);
 		mv.addObject("listeEmployes", listeEmploye);
 	
 		return mv;
@@ -143,10 +157,42 @@ public class RemunerationEmployeController {
 	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/lister")
 	public ModelAndView showBulletins() {
 		ModelAndView mv = new ModelAndView();
-//		List<BulletinSalaire> bulletins = bulletinsRepository.findAll();
+		List<BulletinSalaire> bulletins = bulletinRepository.findAll();
+		List<JSONObject> bulletinObject = new ArrayList<>();
+		bulletins.stream().forEach(g -> {
+			
+//			ResultatCalculRemuneration resultat = remunerationService.calculer(g);
+			JSONObject json = new JSONObject();
+			String date = g.getDateCreation().getDayOfMonth() + "/" + g.getDateCreation().getMonth() + "/" + g.getDateCreation().getYear() 
+					+ " " + g.getDateCreation().getHour() + ":" +  g.getDateCreation().getMinute() + ":" +   g.getDateCreation().getSecond();
+			String periode = g.getPeriode().getDateDebut() + " - " + g.getPeriode().getDateFin();
+			json.put("creation", date);
+			json.put("periode", periode);
+			json.put("matricule", g.getRemunerationEmploye().getMatricule());
+//			json.put("salaireBrut", resultat.getSalaireBrut());
+//			json.put("netImposable", resultat.getNetImposable());
+//			json.put("netAPayer", resultat.getNetAPayer());
+			bulletinObject.add(json);	
+		});
+		
 		mv.setViewName("employes/listerBulletins");
-//		mv.addObject("listBulletins",bulletins);
+		mv.addObject("bulletinObject",bulletinObject);
+		
 		return mv;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, path = "/bulletins/creer")
+	public ModelAndView submitFormBulletin(@RequestParam("periode") Integer idPeriode,
+			@RequestParam("remunerationEmploye") Integer idEmploye,
+			@ModelAttribute("bulletin") BulletinSalaire bulletin,BindingResult result) {
+
+		bulletin.setDateCreation(LocalDateTime.now());
+		bulletin.setPeriode(periodeRepository.findOne(idPeriode));
+		bulletin.setRemunerationEmploye(employeRepository.findOne(idEmploye));
+		bulletinRepository.save(bulletin);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("employes/listerBulletins");
+		return new ModelAndView("redirect:/mvc/employes/bulletins/lister");
 	}
 
 }

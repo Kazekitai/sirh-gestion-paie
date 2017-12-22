@@ -37,26 +37,31 @@
 						<form:label path="periode" for="periode"
 							class="col-md-3 control-label form-label">Période</form:label>
 						<div class="col-md-9">
+
 							<form:select path="periode" id="periode" class="form-control"
 								name="periode">
-								<form:options items="${listePeriodes}" itemValue="id"
-									itemLabel="dateDebut" />
+								<c:forEach var="periode" items="${listePeriodes}">
+									<form:option value='${periode.get("id")}'
+										label='${periode.get("periode")}' />
+								</c:forEach>
 							</form:select>
+							
+							
 						</div>
 					</div>
 
 					<div class="form-group">
-						<form:label path="matricule" for="matricule"
+						<form:label path="remunerationEmploye" for="remunerationEmploye"
 							class="col-md-3 control-label form-label">Matricule</form:label>
 						<div class="col-md-9">
-						
-						<form:select path="matricule" id="matricule" class="form-control"
-								name="matricule">
+
+							<form:select path="remunerationEmploye" id="remunerationEmploye"
+								class="form-control" name="remunerationEmploye">
 								<form:options items="${listeEmployes}" itemValue="id"
-									itemLabel="remunerationEmploye.matricule" />
+									itemLabel="matricule" />
 							</form:select>
-							
-							
+
+
 						</div>
 					</div>
 
