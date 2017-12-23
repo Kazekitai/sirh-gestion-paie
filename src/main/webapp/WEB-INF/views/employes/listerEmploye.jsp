@@ -66,9 +66,9 @@
 
 					<c:forEach items="${listEmployes}" var="employe">
 						<tr class="active">
-							<td>${employe.dateCreation}</td>
-							<td>${employe.matricule}</td>
-							<td>${employe.grade.code}</td>
+							<td>${employe.get("creation")}</td>
+							<td>${employe.get("matricule")}</td>
+							<td>${employe.get("gradeCode")}</td>
 						</tr>
 					</c:forEach>
 

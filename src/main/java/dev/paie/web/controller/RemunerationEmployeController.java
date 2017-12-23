@@ -1,14 +1,10 @@
 package dev.paie.web.controller;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,21 +44,29 @@ import dev.paie.util.PaieUtils;
 @Controller
 @RequestMapping("/employes")
 public class RemunerationEmployeController {
-	
-	@Autowired private EntrepriseRepository entrepriseRepository;
-	@Autowired private ProfilRemunerationRepository profilRepository;
-	@Autowired private GradeRepository gradeRepository;
-	@Autowired private RemunerationEmployeRepository employeRepository;
-	@Autowired private PeriodeRepository periodeRepository;
-	@Autowired private BulletinSalaireRepository bulletinRepository;
-	@Autowired private CalculerRemunerationService remunerationService;
-	
-	@Autowired private PaieUtils paieUtils;
+
+	@Autowired
+	private EntrepriseRepository entrepriseRepository;
+	@Autowired
+	private ProfilRemunerationRepository profilRepository;
+	@Autowired
+	private GradeRepository gradeRepository;
+	@Autowired
+	private RemunerationEmployeRepository employeRepository;
+	@Autowired
+	private PeriodeRepository periodeRepository;
+	@Autowired
+	private BulletinSalaireRepository bulletinRepository;
+	@Autowired
+	private CalculerRemunerationService remunerationService;
+
+	@Autowired
+	private PaieUtils paieUtils;
 
 	@RequestMapping(method = RequestMethod.GET, path = "/creer")
 	public ModelAndView showForm(Model model) {
-		RemunerationEmploye employe  = new RemunerationEmploye();
-		model.addAttribute("employe",employe);
+		RemunerationEmploye employe = new RemunerationEmploye();
+		model.addAttribute("employe", employe);
 		ModelAndView mv = new ModelAndView();
 		// Liste des entreprises
 		List<Entreprise> listeEntreprises = entrepriseRepository.findAll();
@@ -70,10 +74,10 @@ public class RemunerationEmployeController {
 		List<ProfilRemuneration> listeProfil = profilRepository.findAll();
 		// Liste des grades
 		List<Grade> listeGrade = gradeRepository.findAll();
-		
+
 		// Liste des employés
 		List<RemunerationEmploye> listeEmploye = employeRepository.findAll();
-		
+
 		List<JSONObject> gradeObject = new ArrayList<>();
 		listeGrade.stream().forEach(g -> {
 			String[] codeSplit = g.getCode().split("_");
@@ -84,31 +88,29 @@ public class RemunerationEmployeController {
 			JSONObject json = new JSONObject();
 			json.put("id", g.getId());
 			json.put("label", code);
-			gradeObject.add(json);	
+			gradeObject.add(json);
 		});
-		
+
 		String matricule = "M01";
-		if(listeEmploye.size() > 0) {
-			String dernierMatricule = listeEmploye.get(listeEmploye.size()-1).getMatricule();
+		if (listeEmploye.size() > 0) {
+			String dernierMatricule = listeEmploye.get(listeEmploye.size() - 1).getMatricule();
 			String[] numMatriculeSpilt = dernierMatricule.split("M0");
 			int numMatricule = Integer.valueOf(numMatriculeSpilt[1]) + 1;
-			matricule = "M0"+numMatricule;
+			matricule = "M0" + numMatricule;
 		}
-		
-		
+
 		mv.setViewName("employes/creerEmploye");
 		mv.addObject("matricule", matricule);
 		mv.addObject("listeEntreprises", listeEntreprises);
 		mv.addObject("listeProfils", listeProfil);
-		mv.addObject("gradeObject", gradeObject);		
+		mv.addObject("gradeObject", gradeObject);
 		return mv;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = "/creer")
 	public ModelAndView submitForm(@RequestParam("entreprise") Integer idEntreprise,
-			@RequestParam("profilRemuneration") Integer idProfil,
-			@RequestParam("grade") Integer idGrade,
-			@ModelAttribute("employe") RemunerationEmploye employe,BindingResult result) {
+			@RequestParam("profilRemuneration") Integer idProfil, @RequestParam("grade") Integer idGrade,
+			@ModelAttribute("employe") RemunerationEmploye employe, BindingResult result) {
 
 		employe.setDateCreation(LocalDateTime.now());
 		employe.setEntreprise(entrepriseRepository.findOne(idEntreprise));
@@ -119,20 +121,33 @@ public class RemunerationEmployeController {
 		mv.setViewName("employes/listerEmploye");
 		return new ModelAndView("redirect:/mvc/employes/lister");
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, path = "/lister")
 	public ModelAndView showEmployes() {
 		ModelAndView mv = new ModelAndView();
 		List<RemunerationEmploye> listEmployes = employeRepository.findAll();
+		List<JSONObject> employeObject = new ArrayList<>();
+		listEmployes.stream().forEach(e -> {
+
+			JSONObject json = new JSONObject();
+			String date = e.getDateCreation().getDayOfMonth() + "/" + e.getDateCreation().getMonthValue() + "/"
+					+ e.getDateCreation().getYear() + " " + e.getDateCreation().getHour() + ":"
+					+ e.getDateCreation().getMinute() + ":" + e.getDateCreation().getSecond();
+			json.put("id", e.getId());
+			json.put("creation", date);
+			json.put("matricule", e.getMatricule());
+			json.put("gradeCode", e.getGrade().getCode());
+			employeObject.add(json);
+		});
 		mv.setViewName("employes/listerEmploye");
-		mv.addObject("listEmployes",listEmployes);
+		mv.addObject("listEmployes", employeObject);
 		return mv;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/creer")
 	public ModelAndView showBulletinForm(Model model) {
-		BulletinSalaire bulletin  = new BulletinSalaire();
-		model.addAttribute("bulletin",bulletin);
+		BulletinSalaire bulletin = new BulletinSalaire();
+		model.addAttribute("bulletin", bulletin);
 		ModelAndView mv = new ModelAndView();
 		// Liste des périodes
 		List<Periode> listePeriodes = periodeRepository.findAll();
@@ -142,54 +157,54 @@ public class RemunerationEmployeController {
 		List<JSONObject> PeriodeObject = new ArrayList<>();
 		listePeriodes.stream().forEach(p -> {
 			JSONObject json = new JSONObject();
-			DateTimeFormatter  formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			String periode = formatter.format(p.getDateDebut()) + " - " +formatter.format(p.getDateFin());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			String periode = formatter.format(p.getDateDebut()) + " - " + formatter.format(p.getDateFin());
 			json.put("id", p.getId());
 			json.put("periode", periode);
-			PeriodeObject.add(json);	
+			PeriodeObject.add(json);
 		});
-		
+
 		mv.setViewName("employes/creerBulletin");
 		mv.addObject("listePeriodes", PeriodeObject);
 		mv.addObject("listeEmployes", listeEmploye);
-	
+
 		return mv;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/lister")
 	public ModelAndView showBulletins() {
 		ModelAndView mv = new ModelAndView();
 		List<BulletinSalaire> bulletins = bulletinRepository.findAll();
 		List<JSONObject> bulletinObject = new ArrayList<>();
 		bulletins.stream().forEach(g -> {
-			
+
 			ResultatCalculRemuneration resultat = remunerationService.calculer(g);
-			
-			
+
 			JSONObject json = new JSONObject();
-			String date = g.getDateCreation().getDayOfMonth() + "/" + g.getDateCreation().getMonthValue() + "/" + g.getDateCreation().getYear() 
-					+ " " + g.getDateCreation().getHour() + ":" +  g.getDateCreation().getMinute() + ":" +   g.getDateCreation().getSecond();
+			String date = g.getDateCreation().getDayOfMonth() + "/" + g.getDateCreation().getMonthValue() + "/"
+					+ g.getDateCreation().getYear() + " " + g.getDateCreation().getHour() + ":"
+					+ g.getDateCreation().getMinute() + ":" + g.getDateCreation().getSecond();
 			String periode = g.getPeriode().getDateDebut() + " - " + g.getPeriode().getDateFin();
 			json.put("id", g.getId());
 			json.put("creation", date);
 			json.put("periode", periode);
 			json.put("matricule", g.getRemunerationEmploye().getMatricule());
 			json.put("salaireBrut", resultat.getSalaireBrut());
-			json.put("netImposable",resultat.getNetImposable());
+			json.put("netImposable", resultat.getNetImposable());
 			json.put("netAPayer", resultat.getNetAPayer());
-			bulletinObject.add(json);	
+			bulletinObject.add(json);
 		});
-		
+
 		mv.setViewName("employes/listerBulletins");
-		mv.addObject("bulletinObject",bulletinObject);
-		
+		mv.addObject("bulletinObject", bulletinObject);
+
 		return mv;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, path = "/bulletins/creer")
 	public ModelAndView submitFormBulletin(@RequestParam("periode") Integer idPeriode,
 			@RequestParam("remunerationEmploye") Integer idEmploye,
-			@ModelAttribute("bulletin") BulletinSalaire bulletin,BindingResult result) {
+			@ModelAttribute("bulletin") BulletinSalaire bulletin, BindingResult result) {
 
 		bulletin.setDateCreation(LocalDateTime.now());
 		bulletin.setPeriode(periodeRepository.findOne(idPeriode));
@@ -199,7 +214,7 @@ public class RemunerationEmployeController {
 		mv.setViewName("employes/listerBulletins");
 		return new ModelAndView("redirect:/mvc/employes/bulletins/lister");
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/{id}/visualiser")
 	public ModelAndView showOneBulletin(@PathVariable Integer id) {
 		BulletinSalaire bulletin = bulletinRepository.findOne(id);
@@ -207,27 +222,30 @@ public class RemunerationEmployeController {
 		String nomEntreprise = bulletin.getRemunerationEmploye().getEntreprise().getDenomination();
 		String siretEntreprise = bulletin.getRemunerationEmploye().getEntreprise().getSiret();
 		String matricule = bulletin.getRemunerationEmploye().getMatricule();
-		String nbHeuresBase = paieUtils.formaterBigDecimal( bulletin.getRemunerationEmploye().getGrade().getNbHeuresBase());
-		String tauxBase = paieUtils.formaterBigDecimal( bulletin.getRemunerationEmploye().getGrade().getTauxBase());
-		String primeExceptionnelle = paieUtils.formaterBigDecimal( bulletin.getPrimeExceptionnelle());
+		String nbHeuresBase = paieUtils
+				.formaterBigDecimal(bulletin.getRemunerationEmploye().getGrade().getNbHeuresBase());
+		String tauxBase = paieUtils.formaterBigDecimal(bulletin.getRemunerationEmploye().getGrade().getTauxBase());
+		String primeExceptionnelle = paieUtils.formaterBigDecimal(bulletin.getPrimeExceptionnelle());
 		ResultatCalculRemuneration remuneration = remunerationService.calculer(bulletin);
-		List<Cotisation> cotisationImposable = bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsImposables();
-		List<Cotisation> cotisationNonImposable = bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsNonImposables();
-		ModelAndView mv = new ModelAndView();		
+		List<Cotisation> cotisationImposable = bulletin.getRemunerationEmploye().getProfilRemuneration()
+				.getCotisationsImposables();
+		List<Cotisation> cotisationNonImposable = bulletin.getRemunerationEmploye().getProfilRemuneration()
+				.getCotisationsNonImposables();
+		ModelAndView mv = new ModelAndView();
 		mv.setViewName("employes/visualiserBulletin");
-		mv.addObject("bulletin",bulletin);
-		mv.addObject("periode",periode);
-		mv.addObject("nomEntreprise",nomEntreprise);
-		mv.addObject("siretEntreprise",siretEntreprise);
-		mv.addObject("matricule",matricule);
-		mv.addObject("nbHeuresBase",nbHeuresBase);
-		mv.addObject("tauxBase",tauxBase);
-		mv.addObject("primeExceptionnelle",primeExceptionnelle);
-		mv.addObject("remuneration",remuneration);
-		mv.addObject("cotisationNonImposable",cotisationNonImposable);
-		mv.addObject("cotisationImposable",cotisationImposable);
-		mv.addObject("remuneration",remuneration);
-		
+		mv.addObject("bulletin", bulletin);
+		mv.addObject("periode", periode);
+		mv.addObject("nomEntreprise", nomEntreprise);
+		mv.addObject("siretEntreprise", siretEntreprise);
+		mv.addObject("matricule", matricule);
+		mv.addObject("nbHeuresBase", nbHeuresBase);
+		mv.addObject("tauxBase", tauxBase);
+		mv.addObject("primeExceptionnelle", primeExceptionnelle);
+		mv.addObject("remuneration", remuneration);
+		mv.addObject("cotisationNonImposable", cotisationNonImposable);
+		mv.addObject("cotisationImposable", cotisationImposable);
+		mv.addObject("remuneration", remuneration);
+
 		return mv;
 	}
 

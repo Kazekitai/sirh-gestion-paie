@@ -28,7 +28,7 @@
 			 
 			<div class="container-fluid">
 				<c:url value="../lister" var="employes"></c:url>
-				<c:url value="/lister" var="bulletin"></c:url>
+				<c:url value="../lister" var="bulletin"></c:url>
 				<c:url value="creer" var="add"></c:url>
 
 				   
