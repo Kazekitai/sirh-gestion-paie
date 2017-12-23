@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dev.paie.entite.BulletinSalaire;
+import dev.paie.entite.Cotisation;
 import dev.paie.entite.Entreprise;
 import dev.paie.entite.Grade;
 import dev.paie.entite.Periode;
@@ -161,17 +162,19 @@ public class RemunerationEmployeController {
 		List<JSONObject> bulletinObject = new ArrayList<>();
 		bulletins.stream().forEach(g -> {
 			
-//			ResultatCalculRemuneration resultat = remunerationService.calculer(g);
+			ResultatCalculRemuneration resultat = remunerationService.calculer(g);
+			
+			
 			JSONObject json = new JSONObject();
-			String date = g.getDateCreation().getDayOfMonth() + "/" + g.getDateCreation().getMonth() + "/" + g.getDateCreation().getYear() 
+			String date = g.getDateCreation().getDayOfMonth() + "/" + g.getDateCreation().getMonthValue() + "/" + g.getDateCreation().getYear() 
 					+ " " + g.getDateCreation().getHour() + ":" +  g.getDateCreation().getMinute() + ":" +   g.getDateCreation().getSecond();
 			String periode = g.getPeriode().getDateDebut() + " - " + g.getPeriode().getDateFin();
 			json.put("creation", date);
 			json.put("periode", periode);
 			json.put("matricule", g.getRemunerationEmploye().getMatricule());
-//			json.put("salaireBrut", resultat.getSalaireBrut());
-//			json.put("netImposable", resultat.getNetImposable());
-//			json.put("netAPayer", resultat.getNetAPayer());
+			json.put("salaireBrut", resultat.getSalaireBrut());
+			json.put("netImposable",resultat.getNetImposable());
+			json.put("netAPayer", resultat.getNetAPayer());
 			bulletinObject.add(json);	
 		});
 		

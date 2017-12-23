@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class ProfilRemuneration {
 	/**
 	 * Une liste des cotisations non imposables
 	 */
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="PROFIL_COTISATION_NON_IMPOSABLE",
 	joinColumns=@JoinColumn(name="ID_PROFIL", referencedColumnName="ID"),
 	inverseJoinColumns= @JoinColumn(name="ID_COTISATION", referencedColumnName="ID"))
@@ -51,7 +52,7 @@ public class ProfilRemuneration {
 	/**
 	 * Une liste des cotisations imposables
 	 */
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="PROFIL_COTISATION_IMPOSABLE",
 	joinColumns=@JoinColumn(name="ID_PROFIL", referencedColumnName="ID"),
 	inverseJoinColumns= @JoinColumn(name="ID_COTISATION", referencedColumnName="ID"))
