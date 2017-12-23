@@ -32,7 +32,7 @@
 
 				   
 				<div class="navbar-header">
-					 <a class="navbar-brand" href="collaborateurs/lister">SGP - App</a>
+					 <a class="navbar-brand" href="${employes}">SGP - App</a>
 				</div>
 				<ul id="randoNavbar" class="nav navbar-nav">
 					<li><a href="${employes}">Employés</a></li>       

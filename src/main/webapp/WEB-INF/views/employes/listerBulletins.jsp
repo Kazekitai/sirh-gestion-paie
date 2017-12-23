@@ -29,6 +29,7 @@
 				<c:url value="../lister" var="employes"></c:url>
 				<c:url value="/lister" var="bulletin"></c:url>
 				<c:url value="creer" var="add"></c:url>
+				
 
 				   
 				<div class="navbar-header">
@@ -69,6 +70,7 @@
 				<tbody>
 
 					<c:forEach items="${bulletinObject}" var="bulletin">
+						<c:url value='${bulletin.get("id")}/visualiser' var="show"></c:url>
 						<tr class="active">
 							<td>${bulletin.get("creation")}</td>
 							<td>${bulletin.get("periode")}</td>
@@ -76,17 +78,13 @@
 							<td>${bulletin.get("salaireBrut")}</td>
 							<td>${bulletin.get("netImposable")}</td>
 							<td>${bulletin.get("netAPayer")}</td>
-							<td><a href="#">Visualiser</a></td>
+							<td><a href="${show}">Visualiser</a></td>
 						</tr>
 					</c:forEach>
 
 				</tbody>
 			</table>
 		</div>
-	</div>
-
-
-	</div>
 	</div>
 
 </body>

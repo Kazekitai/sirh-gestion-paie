@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -169,6 +170,7 @@ public class RemunerationEmployeController {
 			String date = g.getDateCreation().getDayOfMonth() + "/" + g.getDateCreation().getMonthValue() + "/" + g.getDateCreation().getYear() 
 					+ " " + g.getDateCreation().getHour() + ":" +  g.getDateCreation().getMinute() + ":" +   g.getDateCreation().getSecond();
 			String periode = g.getPeriode().getDateDebut() + " - " + g.getPeriode().getDateFin();
+			json.put("id", g.getId());
 			json.put("creation", date);
 			json.put("periode", periode);
 			json.put("matricule", g.getRemunerationEmploye().getMatricule());
@@ -196,6 +198,37 @@ public class RemunerationEmployeController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("employes/listerBulletins");
 		return new ModelAndView("redirect:/mvc/employes/bulletins/lister");
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/{id}/visualiser")
+	public ModelAndView showOneBulletin(@PathVariable Integer id) {
+		BulletinSalaire bulletin = bulletinRepository.findOne(id);
+		String periode = "Du " + bulletin.getPeriode().getDateDebut() + " au " + bulletin.getPeriode().getDateFin();
+		String nomEntreprise = bulletin.getRemunerationEmploye().getEntreprise().getDenomination();
+		String siretEntreprise = bulletin.getRemunerationEmploye().getEntreprise().getSiret();
+		String matricule = bulletin.getRemunerationEmploye().getMatricule();
+		String nbHeuresBase = paieUtils.formaterBigDecimal( bulletin.getRemunerationEmploye().getGrade().getNbHeuresBase());
+		String tauxBase = paieUtils.formaterBigDecimal( bulletin.getRemunerationEmploye().getGrade().getTauxBase());
+		String primeExceptionnelle = paieUtils.formaterBigDecimal( bulletin.getPrimeExceptionnelle());
+		ResultatCalculRemuneration remuneration = remunerationService.calculer(bulletin);
+		List<Cotisation> cotisationImposable = bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsImposables();
+		List<Cotisation> cotisationNonImposable = bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsNonImposables();
+		ModelAndView mv = new ModelAndView();		
+		mv.setViewName("employes/visualiserBulletin");
+		mv.addObject("bulletin",bulletin);
+		mv.addObject("periode",periode);
+		mv.addObject("nomEntreprise",nomEntreprise);
+		mv.addObject("siretEntreprise",siretEntreprise);
+		mv.addObject("matricule",matricule);
+		mv.addObject("nbHeuresBase",nbHeuresBase);
+		mv.addObject("tauxBase",tauxBase);
+		mv.addObject("primeExceptionnelle",primeExceptionnelle);
+		mv.addObject("remuneration",remuneration);
+		mv.addObject("cotisationNonImposable",cotisationNonImposable);
+		mv.addObject("cotisationImposable",cotisationImposable);
+		mv.addObject("remuneration",remuneration);
+		
+		return mv;
 	}
 
 }
