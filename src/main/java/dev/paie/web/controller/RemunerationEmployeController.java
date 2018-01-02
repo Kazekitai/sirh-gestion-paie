@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,6 +65,7 @@ public class RemunerationEmployeController {
 	private PaieUtils paieUtils;
 
 	@RequestMapping(method = RequestMethod.GET, path = "/creer")
+	@Secured("ROLE_ADMINISTRATEUR")
 	public ModelAndView showForm(Model model) {
 		RemunerationEmploye employe = new RemunerationEmploye();
 		model.addAttribute("employe", employe);
@@ -108,6 +110,7 @@ public class RemunerationEmployeController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = "/creer")
+	@Secured("ROLE_ADMINISTRATEUR")
 	public ModelAndView submitForm(@RequestParam("entreprise") Integer idEntreprise,
 			@RequestParam("profilRemuneration") Integer idProfil, @RequestParam("grade") Integer idGrade,
 			@ModelAttribute("employe") RemunerationEmploye employe, BindingResult result) {
@@ -123,6 +126,7 @@ public class RemunerationEmployeController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/lister")
+	@Secured({"ROLE_UTILISATEUR", "ROLE_ADMINISTRATEUR"})
 	public ModelAndView showEmployes() {
 		ModelAndView mv = new ModelAndView();
 		List<RemunerationEmploye> listEmployes = employeRepository.findAll();
@@ -145,6 +149,7 @@ public class RemunerationEmployeController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/creer")
+	@Secured("ROLE_ADMINISTRATEUR")
 	public ModelAndView showBulletinForm(Model model) {
 		BulletinSalaire bulletin = new BulletinSalaire();
 		model.addAttribute("bulletin", bulletin);
@@ -172,6 +177,7 @@ public class RemunerationEmployeController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/lister")
+	@Secured({"ROLE_UTILISATEUR", "ROLE_ADMINISTRATEUR"})
 	public ModelAndView showBulletins() {
 		ModelAndView mv = new ModelAndView();
 		List<BulletinSalaire> bulletins = bulletinRepository.findAll();
@@ -202,6 +208,7 @@ public class RemunerationEmployeController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = "/bulletins/creer")
+	@Secured("ROLE_ADMINISTRATEUR")
 	public ModelAndView submitFormBulletin(@RequestParam("periode") Integer idPeriode,
 			@RequestParam("remunerationEmploye") Integer idEmploye,
 			@ModelAttribute("bulletin") BulletinSalaire bulletin, BindingResult result) {
@@ -216,6 +223,7 @@ public class RemunerationEmployeController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/bulletins/{id}/visualiser")
+	@Secured({"ROLE_UTILISATEUR", "ROLE_ADMINISTRATEUR"})
 	public ModelAndView showOneBulletin(@PathVariable Integer id) {
 		BulletinSalaire bulletin = bulletinRepository.findOne(id);
 		String periode = "Du " + bulletin.getPeriode().getDateDebut() + " au " + bulletin.getPeriode().getDateFin();

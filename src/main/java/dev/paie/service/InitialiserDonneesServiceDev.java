@@ -6,16 +6,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import dev.paie.entite.Cotisation;
 import dev.paie.entite.Entreprise;
 import dev.paie.entite.Grade;
 import dev.paie.entite.Periode;
 import dev.paie.entite.ProfilRemuneration;
+import dev.paie.entite.Utilisateur;
 import dev.paie.repository.CotisationRepository;
 import dev.paie.repository.EntrepriseRepository;
 import dev.paie.repository.GradeRepository;
 import dev.paie.repository.PeriodeRepository;
 import dev.paie.repository.ProfilRemunerationRepository;
+import dev.paie.repository.UtilisateurRepository;
 
 //Marque un bean de configuration Spring
 @Configuration
@@ -27,6 +31,8 @@ import dev.paie.repository.ProfilRemunerationRepository;
 
 public class InitialiserDonneesServiceDev implements InitialiserDonneesService{
 	
+	@Autowired private PasswordEncoder passwordEncoder;
+	@Autowired private UtilisateurRepository utilisteurRepository;
 	@Autowired private CotisationRepository cotisationRepository;
 	@Autowired private GradeRepository gradeRepository;
 	@Autowired private EntrepriseRepository entrepriseRepository;
@@ -62,6 +68,22 @@ public class InitialiserDonneesServiceDev implements InitialiserDonneesService{
 			p.setDateFin(end);
 			periodeRepository.save(p);
 		}
+		
+		// Insertion d'un utilisateur dans la base
+		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setEstActif("true");
+		utilisateur.setNomUtilisateur("Bernard");
+		utilisateur.setMotDePasse(this.passwordEncoder.encode("123"));
+		utilisateur.setRole(Utilisateur.ROLES.ROLE_UTILISATEUR);
+		utilisteurRepository.save(utilisateur);
+		
+		// Insertion d'un administrateur dans la base
+		Utilisateur admin = new Utilisateur();
+		admin.setEstActif("true");
+		admin.setNomUtilisateur("Sandra");
+		admin.setMotDePasse(this.passwordEncoder.encode("admin"));
+		admin.setRole(Utilisateur.ROLES.ROLE_ADMINISTRATEUR);
+		utilisteurRepository.save(admin);
 		
 	}
 
